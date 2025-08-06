@@ -1,0 +1,55 @@
+@host = http://localhost:8080
+
+### GET Operation
+@operationId = 86403f0d-c46d-4d54-87c3-74dc2499ba94
+
+GET {{host}}/cards/{{operationId}}
+
+### POST Good input
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+  "cardNames": [
+    "Lightning Bolt",
+    "Black Lotus",
+    "Counterspell"
+  ]
+}
+
+### POST Bad input
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+  "cardNames": [
+    "Lightning Bolt",
+    "Black Lotvvvvvvvvus",
+    "Counterspell",
+    "pppppp",
+    "Black Lotus",
+    "aaaaa"
+  ]
+}
+
+### POST Really bad input
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+  "cardNames": [
+    "1",
+    "2",
+    "null",
+    "exception",
+    "3",
+    4,
+    "5",
+    "6",
+    "7",
+    "7",
+    "8",
+    "9",
+    "10"
+  ]
+}

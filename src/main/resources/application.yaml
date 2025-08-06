@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: MtGCards
+  main:
+    web-application-type: reactive
+    banner-mode: off
+  threads:
+    virtual:
+      enabled: true
+  jackson:
+    default-property-inclusion: non_empty
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
