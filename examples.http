@@ -1,10 +1,5 @@
 @host = http://localhost:8080
 
-### GET Operation
-@operationId = 86403f0d-c46d-4d54-87c3-74dc2499ba94
-
-GET {{host}}/cards/{{operationId}}
-
 ### POST Good input
 POST {{host}}/cards
 Content-Type: application/json
@@ -16,6 +11,10 @@ Content-Type: application/json
     "Counterspell"
   ]
 }
+
+> {%
+  client.global.set("operationId", response.body.operationId);
+%}
 
 ### POST Bad input
 POST {{host}}/cards
@@ -31,6 +30,10 @@ Content-Type: application/json
     "aaaaa"
   ]
 }
+
+> {%
+  client.global.set("operationId", response.body.operationId);
+%}
 
 ### POST Really bad input
 POST {{host}}/cards
@@ -53,3 +56,10 @@ Content-Type: application/json
     "10"
   ]
 }
+
+> {%
+  client.global.set("operationId", response.body.operationId);
+%}
+
+### GET Operation
+GET {{host}}/cards/{{operationId}}

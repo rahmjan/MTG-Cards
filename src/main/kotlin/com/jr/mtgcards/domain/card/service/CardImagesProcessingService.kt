@@ -1,22 +1,25 @@
 package com.jr.mtgcards.domain.card.service
 
+import com.jr.mtgcards.domain.card.entity.ImageUrlCacheEntity
 import com.jr.mtgcards.domain.card.entity.ImageUrlEntity
 import com.jr.mtgcards.domain.card.entity.ImagesProcessEntity
 import com.jr.mtgcards.domain.card.model.ProcessingStatus
+import com.jr.mtgcards.domain.card.repository.ImageUrlCacheRepository
 import com.jr.mtgcards.domain.card.repository.ImageUrlRepository
 import com.jr.mtgcards.domain.card.repository.ImagesProcessRepository
 import com.jr.mtgcards.library.external.scryfall.ScryfallApi
 import com.jr.mtgcards.utils.logger.log
+import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import org.springframework.stereotype.Service
-import java.util.*
-import java.util.concurrent.atomic.AtomicInteger
 
 @Service
 class CardImagesProcessingService(
   private val imagesProcessRepository: ImagesProcessRepository,
   private val imageUrlRepository: ImageUrlRepository,
+  private val imageUrlCacheRepository: ImageUrlCacheRepository,
   private val scryfallApi: ScryfallApi,
 ) {
 
@@ -67,13 +70,21 @@ class CardImagesProcessingService(
 
     val entity =
       runCatching {
-          val response = scryfallApi.getNamedCard(cName)
+          val cachedPngUrl = imageUrlCacheRepository.findById(cName)?.pngUrl
+
+          // If not cached, call API and update cache
+          val pngUrl =
+            cachedPngUrl
+              ?: scryfallApi.getNamedCard(cName)?.image_uris?.png?.also {
+                imageUrlCacheRepository.save(ImageUrlCacheEntity(cName, it).apply { insert = true })
+              }
+
           ImageUrlEntity(
             id = UUID.randomUUID(),
             operationId = operationId,
             name = cName,
-            pngUrl = response?.image_uris?.png,
-            error = if (response == null) "Card not found" else null,
+            pngUrl = pngUrl,
+            error = if (pngUrl == null) "Card not found" else null,
           )
         }
         .getOrElse { ex ->
