@@ -1,8 +1,8 @@
-# MtG Cards app
+# MTG Cards app
 
 ### Overview
 
-Application for requesting PNG images of MtG cards. You can find examples of requests
+Application for requesting PNG images of MTG cards. You can find examples of requests
 in [examples.http](./examples.http)
 
 ### Technologies

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: MtGCards
+    name: MTGCards
   main:
     web-application-type: reactive
     banner-mode: off
