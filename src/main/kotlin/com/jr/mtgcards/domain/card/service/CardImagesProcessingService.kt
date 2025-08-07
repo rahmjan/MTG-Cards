@@ -8,6 +8,7 @@ import com.jr.mtgcards.domain.card.repository.ImageUrlCacheRepository
 import com.jr.mtgcards.domain.card.repository.ImageUrlRepository
 import com.jr.mtgcards.domain.card.repository.ImagesProcessRepository
 import com.jr.mtgcards.library.external.scryfall.ScryfallApi
+import com.jr.mtgcards.utils.exception.coroutineExceptionHandler
 import com.jr.mtgcards.utils.logger.log
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
@@ -25,7 +26,8 @@ class CardImagesProcessingService(
 
   companion object {
     private const val COROUTINE_COUNT = 20
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val coroutineScope =
+      CoroutineScope(Dispatchers.IO + SupervisorJob() + coroutineExceptionHandler)
   }
 
   suspend fun processImagesAsync(cardNames: Set<String>): UUID {
@@ -88,7 +90,7 @@ class CardImagesProcessingService(
           )
         }
         .getOrElse { ex ->
-          log.error { "ProcessCard error: $ex" }
+          log.error { "ProcessCard error [$cName]: $ex" }
           ImageUrlEntity(
             id = UUID.randomUUID(),
             operationId = operationId,

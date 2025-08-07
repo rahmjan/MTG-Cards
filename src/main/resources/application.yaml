@@ -12,3 +12,10 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
+    url: jdbc:${DB_URL}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
+  r2dbc:
+    url: r2dbc:${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}

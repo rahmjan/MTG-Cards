@@ -1,11 +1,23 @@
 name: mtgCards-compose
 
 services:
-    db:
-        image: postgres:17.5-alpine
-        ports:
-            - "5432:5432"
-        environment:
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: admin
-            POSTGRES_DB: mtg
+  db:
+    image: postgres:17.5-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: mtg
+  app:
+    build:
+      context: ..
+      dockerfile: ./docker-compose/Dockerfile
+    environment:
+      DB_URL: postgresql://db:5432/mtg
+      DB_USER: admin
+      DB_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db

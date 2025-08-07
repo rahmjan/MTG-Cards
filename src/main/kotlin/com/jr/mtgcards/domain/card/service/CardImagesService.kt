@@ -4,8 +4,8 @@ import com.jr.mtgcards.domain.card.dto.*
 import com.jr.mtgcards.domain.card.model.ProcessingStatus
 import com.jr.mtgcards.domain.card.repository.ImageUrlRepository
 import com.jr.mtgcards.domain.card.repository.ImagesProcessRepository
-import org.springframework.stereotype.Service
 import java.util.*
+import org.springframework.stereotype.Service
 
 @Service
 class CardImagesService(

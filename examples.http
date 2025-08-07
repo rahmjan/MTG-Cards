@@ -61,5 +61,160 @@ Content-Type: application/json
   client.global.set("operationId", response.body.operationId);
 %}
 
+### POST An empty card list
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+  "cardNames": []
+}
+
+> {%
+  client.global.set("operationId", response.body.operationId);
+%}
+
+### POST An empty body
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+}
+
+### POST 102 correct card names
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+  "cardNames": [
+    "Lightning Bolt",
+    "Black Lotus",
+    "Counterspell",
+    "Island",
+    "Mountain",
+    "Forest",
+    "Swamp",
+    "Plains",
+    "Serra Angel",
+    "Shivan Dragon",
+    "Dark Ritual",
+    "Swords to Plowshares",
+    "Brainstorm",
+    "Ponder",
+    "Opt",
+    "Wrath of God",
+    "Doom Blade",
+    "Tarmogoyf",
+    "Snapcaster Mage",
+    "Thoughtseize",
+    "Jace, the Mind Sculptor",
+    "Liliana of the Veil",
+    "Teferi, Hero of Dominaria",
+    "Ulamog, the Infinite Gyre",
+    "Emrakul, the Aeons Torn",
+    "Karn Liberated",
+    "Elspeth, Sun's Champion",
+    "Ajani Goldmane",
+    "Chandra, Torch of Defiance",
+    "Garruk Wildspeaker",
+    "Nicol Bolas, Dragon-God",
+    "Omnath, Locus of Creation",
+    "Sol Ring",
+    "Mana Vault",
+    "Mana Crypt",
+    "Fyndhorn Elves",
+    "Llanowar Elves",
+    "Birds of Paradise",
+    "Sakura-Tribe Elder",
+    "Rampant Growth",
+    "Cultivate",
+    "Kodama's Reach",
+    "Oracle of Mul Daya",
+    "Courser of Kruphix",
+    "Primeval Titan",
+    "Avenger of Zendikar",
+    "Questing Beast",
+    "Gilded Goose",
+    "Bonecrusher Giant",
+    "Brazen Borrower",
+    "Murderous Rider",
+    "Minsc & Boo, Timeless Heroes",
+    "Thassa's Oracle",
+    "Underworld Breach",
+    "Expressive Iteration",
+    "Consider",
+    "Fatal Push",
+    "Lightning Helix",
+    "Reflector Mage",
+    "Skyclave Apparition",
+    "Siege Rhino",
+    "Collected Company",
+    "Spell Queller",
+    "Thought-Knot Seer",
+    "Reality Smasher",
+    "Eldrazi Displacer",
+    "Wasteland",
+    "Strip Mine",
+    "Field of the Dead",
+    "Valakut, the Molten Pinnacle",
+    "Cabal Coffers",
+    "Urborg, Tomb of Yawgmoth",
+    "Yavimaya, Cradle of Growth",
+    "Boseiju, Who Endures",
+    "Otawara, Soaring City",
+    "Eiganjo, Seat of the Empire",
+    "Hall of Storm Giants",
+    "Hive of the Eye Tyrant",
+    "Den of the Bugbear",
+    "Creeping Tar Pit",
+    "Celestial Colonnade",
+    "Raging Ravine",
+    "Mutavault",
+    "Inkmoth Nexus",
+    "Blinkmoth Nexus",
+    "Ghost Quarter",
+    "Tectonic Edge",
+    "Blast Zone",
+    "Inventors' Fair",
+    "The One Ring",
+    "Orcish Bowmasters",
+    "Reanimate",
+    "Animate Dead",
+    "Griselbrand",
+    "Archon of Cruelty",
+    "Atraxa, Grand Unifier",
+    "Sheoldred, the Apocalypse",
+    "Urza's Saga",
+    "Mox Amber",
+    "Mox Diamond",
+    "Chrome Mox",
+    "Sensei's Divining Top"
+  ]
+}
+
+> {%
+  client.global.set("operationId", response.body.operationId);
+%}
+
+### POST 1 odd card which does not respect Scryfall response API doc (https://scryfall.com/docs/api/cards/named)
+POST {{host}}/cards
+Content-Type: application/json
+
+{
+  "cardNames": [
+    "Fable of the Mirror-Breaker"
+  ]
+}
+
+> {%
+  client.global.set("operationId", response.body.operationId);
+%}
+
+### GET nonexistent operationId 1
+GET {{host}}/cards/invalid-operation-id-123
+
+### GET nonexistent operationId 2
+GET {{host}}/cards/00000000-52dc-4202-0000-bf75f96c724f
+
+
 ### GET Operation
 GET {{host}}/cards/{{operationId}}
